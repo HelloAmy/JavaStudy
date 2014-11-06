@@ -20,7 +20,7 @@ public class TestExcelHelper {
 	 */
 	public static void TestGetData() {
 		try {
-			String[][] array = ExcelHelper.getData("D:/001code/100java学习/JavaUtil/doc/税费管理20141105100144.xls", 0);
+			String[][] array = ExcelHelper.getData("doc/税费管理20141105100144.xls", 0);
 			
 			if (array != null && array.length > 0){
 				for(int i = 0; i < array.length; i++){
@@ -50,7 +50,7 @@ public class TestExcelHelper {
 	 * @param sheetName sheet名称
 	 */
 	public static void setData(String [][] data, String sheetName){
-		String fileName="D:/001code/100java学习/JavaUtil/doc/税费管理20141105100144Copy.xls";
+		String fileName="doc/税费管理20141105100144Copy.xls";
 		try {
 			ExcelHelper.setData(fileName, data, sheetName);
 		} catch (IOException e) {
