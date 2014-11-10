@@ -1,9 +1,7 @@
 package zjr.amy.excel.test;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -89,11 +87,9 @@ public class TestExcelHelper {
 		p.setName("丽丽");
 		list.add(p);
 		ExcelUtil<Person> bll = new ExcelUtil<Person>();
-		OutputStream out;
 		String[] headers = { "主键", "性别", "姓名", "出生年月" };
 		try {
-			out = new FileOutputStream("doc/Person.xls");
-			bll.writeData(headers, list, out);
+			bll.writeData(headers, list, "doc/Person.xls");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

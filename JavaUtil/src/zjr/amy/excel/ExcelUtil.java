@@ -1,5 +1,7 @@
 package zjr.amy.excel;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
@@ -23,38 +25,80 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 
+/**
+ * Excel工具类
+ * @author zhujinrong
+ *
+ * @param <T> 泛型T
+ */
 public class ExcelUtil<T> {
-	public void writeData(Collection<T> dataset, OutputStream out) {
+	
+	/**
+	 * 写入数据到Excel中
+	 * @param dataset 数据
+	 * @param fileName 文件名
+	 * @throws FileNotFoundException 
+	 */
+	public void writeData(Collection<T> dataset, String fileName) throws FileNotFoundException {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String temp = sdf.format(date);
-		this.writeData("测试文档" + temp, null, dataset, out, "yyyy-MM-dd");
+		this.writeData("测试文档" + temp, null, dataset, fileName, "yyyy-MM-dd");
 	}
 
+	/**
+	 * 写入数据到Excel中
+	 * @param headers 表头
+	 * @param dataset 数据
+	 * @param fileName 文件名
+	 * @throws FileNotFoundException 
+	 */
 	public void writeData(String[] headers, Collection<T> dataset,
-			OutputStream out) {
+			String fileName) throws FileNotFoundException {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String temp = sdf.format(date);
-		this.writeData("测试文档" + temp, headers, dataset, out, "yyyy-MM-dd");
+		this.writeData("测试文档" + temp, headers, dataset, fileName, "yyyy-MM-dd");
 	}
 
+	/**
+	 * 写入数据到Excel中
+	 * @param headers 表头
+	 * @param dataset 数据
+	 * @param fileName 文件名
+	 * @param pattern 日期处理格式
+	 * @throws FileNotFoundException 找不到文件
+	 */
 	public void writeData(String[] headers, Collection<T> dataset,
-			OutputStream out, String pattern) {
-		this.writeData("测试文档", headers, dataset, out, pattern);
+			String fileName, String pattern) throws FileNotFoundException {
+		this.writeData("测试文档", headers, dataset, fileName, pattern);
 	}
 
+	/**
+	 * 写入数据到Excel
+	 * @param title sheet名
+	 * @param headers 表头
+	 * @param dataset 数据
+	 * @param fileName 文件名
+	 * @param pattern 日期处理格式
+	 * @throws FileNotFoundException 找不到文件
+	 */
 	public void writeData(String title, String[] headers,
-			Collection<T> dataset, OutputStream out, String pattern) {
+			Collection<T> dataset, String fileName, String pattern) throws FileNotFoundException {
 
+		OutputStream out;
+		out = new FileOutputStream(fileName);
 		// 声明一个工作薄
 		HSSFWorkbook workbook = new HSSFWorkbook();
-
+		
 		// 生成一个表格
 		HSSFSheet sheet = workbook.createSheet();
 
 		// 设置表格默认宽度为15个字节
 		sheet.setDefaultColumnWidth(15);
+		
+		// 设置Sheet名
+		workbook.setSheetName(0,title);
 
 		// 生成和设置表头样式
 		HSSFCellStyle headStyle = workbook.createCellStyle();
